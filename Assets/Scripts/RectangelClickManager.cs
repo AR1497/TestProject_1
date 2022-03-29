@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class RectangelClickManager : MonoBehaviour
@@ -12,8 +11,6 @@ public class RectangelClickManager : MonoBehaviour
     private float _spawnOjectZ = 5f;
 
     public LineRenderer line;
-
-    private float LastClickTime = 0.0f;
 
     private void Start()
     {
@@ -37,9 +34,12 @@ public class RectangelClickManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftShift))
         {
             Vector2 currentPoint = GetWarldCoordinate(Input.mousePosition);
-            Debug.Log(currentPoint);
             line.positionCount++;
             line.SetPosition(line.positionCount - 1, currentPoint);
+        }
+        else
+        {
+            line.forceRenderingOff = false;
         }
     }
 
@@ -64,21 +64,6 @@ public class RectangelClickManager : MonoBehaviour
                 var gameObject = Instantiate(_spawnObject, newv, Quaternion.identity);
             }
 
-        }
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        float timeFromLastClick = Time.time - LastClickTime;
-        LastClickTime = Time.time;
-
-        if (collider.tag == "Rectangel")
-        {
-            if (timeFromLastClick < 0.2)
-            {
-                Destroy(gameObject);
-                Debug.Log("Двойной клик!");
-            }
         }
     }
 
